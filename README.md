@@ -1,19 +1,25 @@
 # mcwar
 A simple PVP plugin for Bukkit/Spigot.
 
+**Installation**
+
+Simply put the .jar-file into your /plugins directory. Restart the server if necessary.
+
 **Important commands:**
 
-/createTeam <Team Name> [Join Key] - *creates a new team with an optional join key*
+/createTeam <team name> [join key] - *creates a new team with an optional join key*
 
-/jointeam <Team Name> [Join Key] - *joins the specified team*
+/jointeam <team name> [join key] - *joins the specified team*
 
-/kit <Kit Name> - *selects the specified kit*
+/kit <kit name> - *selects the specified kit*
 
 /ready - *sets your status to ready, if every player is ready the game will start*
 
 /setTickets - *sets the ticket limit per team (default: 1)*
 
 /setMapCenter [x] [z] - *puts the map center to the players coordinates or the specified arguments.*
+
+/setMapSize <map size> - *sets the map size in blocks from the center (default: 250)*
 
 /kits <enable|disable> - *Enables/disables kits.*
 
