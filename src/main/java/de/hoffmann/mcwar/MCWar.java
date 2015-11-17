@@ -33,7 +33,7 @@ public final class MCWar extends JavaPlugin {
 
 	private final HashMap<String, MCWarTeam> teamList = new HashMap<>();
 	private final HashMap<String, MCWarKit> kitList = new HashMap<>();
-	private final List<MCWarChestContent> chestContentList = new ArrayList();
+	private final List<MCWarChestContent> chestContentList = new ArrayList<>();
 
 	private ArrayList<String> activeTeams = new ArrayList<>(); // teams with at least 1 player
 	private ArrayList<Player> activePlayers;

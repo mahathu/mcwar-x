@@ -1,0 +1,176 @@
+kits:
+  archer:
+    name: Archer
+    description: 'Get an early advantage over your foes with a set of a bow and arrows.'
+    items:
+      BOW:
+        amount: 1
+      ARROW:
+        amount: 32
+  demolitionist:
+    name: Demolitionist
+    description: 'Make use of explosives to destroy your opponents.'
+    items:
+      TNT:
+        amount: 16
+      FIREBALL:
+        amount: 20
+  lumberjack:
+    name: Lumberjack
+    description: 'With this kit, you won''t have to waste much time gathering wood.'
+    items:
+      IRON_AXE:
+        amount: 1
+  cultivist:
+    name: Cultivist
+    description: 'As a cultivist, you will be able to easily provide food for you and your team.'
+    items:
+      DIAMOND_HOE:
+        amount: 1
+      POTATO_ITEM:
+        amount: 16
+  knight:
+    name: Knight
+    description: 'If you find a horse, your saddle will allow you to become faster than anyone else.'
+    items:
+      SADDLE:
+        amount: 1
+  alchemist:
+    name: Alchemist
+    description: 'Use your brewing stand to create powerful potions.'
+    items:
+      BREWING_STAND_ITEM:
+        amount: 1
+  enchanter:
+    name: Enchanter
+    description: 'Don''t waste diamonds on a pickaxe: This kit helps you get an enchanting table faster.'
+    items:
+      ENCHANTMENT_TABLE:
+        amount: 1
+  fisherman:
+    name: Fisherman
+    description: 'Make use of your surroundings and fill your stomach with fish.'
+    items:
+      FISHING_ROD:
+        amount: 1
+  gps:
+    name: GPS
+    description: 'Helps you get a compass faster to track down your opponents.'
+    items:
+      REDSTONE:
+        amount: 1
+  spy:
+    name: Spy
+    description: 'Gather more information about your foes with a compass.'
+    items:
+      AIR:
+        amount: 0
+  builder:
+    name: Builder
+    description: 'Build structures to gain an elevation advantage.'
+    items:
+      DIRT:
+        amount: 128
+      IRON_SPADE:
+        amount: 1
+       
+        
+chestcontent:
+  NETHER_WARTS:
+    material: NETHER_WARTS
+    chance: 1
+    amount: 32
+  BREWING_STAND_ITEM:
+    material: BREWING_STAND_ITEM
+    chance: 0.25
+    amount: 1
+  BLAZE_POWDER:
+    material: BLAZE_POWDER
+    chance: 0.25
+    amount: 12
+  BONE:
+    material: BONE
+    chance: 0.5
+    amount: 20
+  MELON:
+    material: MELON
+    chance: 0.33
+    amount: 1
+  BOW:
+    material: BOW
+    chance: 0.5
+    amount: 1
+  ARROW:
+    material: ARROW
+    chance: 0.66
+    amount: 16
+  COOKED_BEEF:
+    material: COOKED_BEEF
+    chance: 0.5
+    amount: 8
+  FLINT_AND_STEEL:
+    material: FLINT_AND_STEEL
+    chance: 0.4
+    amount: 1
+  DIAMOND_HELMET:
+    material: DIAMOND_HELMET
+    chance: 0.2
+    amount: 1
+  DIAMOND_CHESTPLATE:
+    material: DIAMOND_CHESTPLATE
+    chance: 0.2
+    amount: 1
+  DIAMOND_LEGGINGS:
+    material: DIAMOND_LEGGINGS
+    chance: 0.2
+    amount: 1
+  DIAMOND_BOOTS:
+    material: DIAMOND_BOOTS
+    chance: 0.2
+    amount: 1
+  DIAMOND_SWORD:
+    material: DIAMOND_SWORD
+    chance: 0.2
+    amount: 1
+  DIAMOND_BLOCK:
+    material: DIAMOND_BLOCK
+    chance: 0.1
+    amount: 1
+  SADDLE:
+    material: SADDLE
+    chance: 0.66
+    amount: 1
+  ENCHANTMENT_TABLE:
+    material: ENCHANTMENT_TABLE
+    chance: 0.25
+    amount: 1
+  LAVA_BUCKET:
+    material: LAVA_BUCKET
+    chance: 0.25
+    amount: 1
+  ENDER_PEARL:
+    material: ENDER_PEARL
+    chance: 0.33
+    amount: 4
+  COMPASS:
+    material: COMPASS
+    chance: 0.5
+    amount: 1
+    
+        
+preferences:
+  kitsEnable: true
+  randomChestsEnable: true
+  netherEnable: false
+  ticketsEnable: true
+  timerEnable: true
+  maxKillsEnable: false
+  
+  maxKills: 10
+  tickets: 1
+  maxTime: 30
+  mapSize: 250
+  mapCenterX: 0
+  mapCenterZ: 0
+  
+  worldName: world

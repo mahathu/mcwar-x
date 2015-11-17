@@ -1,0 +1,136 @@
+name: MCWar
+version: 0.01
+author: martin.hoffmann98@live.de
+
+main: de.hoffmann.mcwar.MCWar
+
+commands:
+  createTeam:
+    description: 'Creates a new Team with an optional join key.'
+    usage: 'Usage: /<command> <Team Name> [Join Key]'
+    permission: MCWar.createTeam
+    permission-message: 'You don''t have the following permission:  <permission>'
+  deleteTeam:
+    description: 'Deletes a team you created.'
+    usage: 'Usage: /<command> <Team Name>'
+    permission: MCWar.createTeam
+    permission-message: 'You don''t have the following permission:  <permission>'
+  joinTeam:
+    description: 'Joins a team with an optional join key.'
+    usage: 'Usage: /<command> <Team Name> [Join Key]'
+    permission: MCWar.joinTeam
+    permission-message: 'You don''t have the following permission:  <permission>'
+  leaveTeam:
+    description: 'Leaves your current team.'
+    usage: 'Usage: /<command>'
+    permission: MCWar.joinTeam
+    permission-message: 'You don''t have the following permission:  <permission>'
+  kit:
+    description: 'Chooses a kit.'
+    usage: 'Usage: /<command> <Kit name>'
+    permission: MCWar.kit
+    permission-message: 'You don''t have the following permission:  <permission>'
+  showkits:
+    description: 'Shows a list with every kit.'
+    usage: 'Usage: /<command>'
+    permission: MCWar.kit
+    permission-message: 'You don''t have the following permission:  <permission>'
+  ready:
+    description: 'Sets your status to ready.'
+    usage: 'Usage: /<command>'
+    permission: MCWar.ready
+    permission-message: 'You don''t have the following permission:  <permission>'
+  notready:
+    description: 'Sets your status to not ready.'
+    usage: 'Usage: /<command>'
+    permission: MCWar.ready
+    permission-message: 'You don''t have the following permission:  <permission>'
+    
+  kits:
+    description: 'Enables or disables kits.'
+    usage: 'Usage: /<command> <enable|disable>'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>' 
+  randomChests:
+    description: 'Enables or disables random chests.'
+    usage: 'Usage: /<command> <enable|disable>'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>' 
+  nether:
+    description: 'Enables or disables the nether.'
+    usage: 'Usage: /<command> <enable|disable>'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>' 
+  timer:
+    description: 'Enables or disables the time limit.'
+    usage: 'Usage: /<command> <enable|disable>'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>' 
+  maxKills:
+    description: 'Enables or disables the kill limit.'
+    usage: 'Usage: /<command> <enable|disable>'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>' 
+  tickets:
+    description: 'Enables or disables the ticket limit.'
+    usage: 'Usage: /<command> <enable|disable>'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>' 
+  mapSize:
+    description: 'Sets the map size (distance from center).'
+    usage: 'Usage: /<command> <amount>'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>'
+  setTimer:
+    description: 'Sets the time limit (in minutes).'
+    usage: 'Usage: /<command> <amount>'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>'
+  setMaxKills:
+    description: 'Sets the kill limit.'
+    usage: 'Usage: /<command> <amount>'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>'
+  setTickets:
+    description: 'Sets the ticket limit (in minutes).'
+    usage: 'Usage: /<command> <amount>'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>'
+  assignPlayer:
+    description: 'Assigns a player to the specified team.'
+    usage: 'Usage: /<command> <player name> <team name>'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>'
+  resetTeams:
+    description: 'Deletes all teams.'
+    usage: 'Usage: /<command> <player name> <team name>'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>'
+  setMapCenter:
+    description: 'Sets the center to the map to the specified coordinates or your position.'
+    usage: 'Usage: /<command> [x] [z]'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>'
+  startMatch:
+    description: 'Starts the match. Default timer: 5'
+    usage: 'Usage: /<command> [timer]'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>'
+  stopMatch:
+    description: 'Stops the match'
+    usage: 'Usage: /<command>'
+    permission: MCWar.commandTools
+    permission-message: 'You don''t have the following permission:  <permission>'
+  
+    
+permissions:
+  MCWar.createTeam:
+    default: true
+  MCWar.joinTeam:
+    default: true
+  MCWar.ready:
+    default: true
+  MCWar.kit:
+    default: true
+  MCWar.commandTools:
+    default: op
