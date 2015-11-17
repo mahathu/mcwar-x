@@ -29,6 +29,8 @@ public final class MCWar extends JavaPlugin {
 	private WorldBorder wb;
 	private String worldName;
 
+	private MCWarTools t;
+
 	private final HashMap<String, MCWarTeam> teamList = new HashMap<>();
 	private final HashMap<String, MCWarKit> kitList = new HashMap<>();
 	private final List<MCWarChestContent> chestContentList = new ArrayList<>();
