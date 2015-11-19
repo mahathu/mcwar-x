@@ -13,7 +13,7 @@ public class MCWarTools {
 
 	public boolean resetPlayer(Player player) {
 
-		if (!Bukkit.getOnlinePlayers().contains(player)) {
+		if (!Bukkit.getOnlinePlayers().contains(player)) { //Player not online
 			return false;
 		}
 

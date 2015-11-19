@@ -32,7 +32,6 @@ public class MCWarCommandExecutor implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
 		if (cmd.getName().equalsIgnoreCase("createTeam")) {
-			String returnMessage = "";
 
 			if (args.length < 1 || args.length > 2) {
 				return false;
@@ -48,22 +47,17 @@ public class MCWarCommandExecutor implements CommandExecutor {
 
 			if (!teamList.containsKey(teamName)) {
 				teamList.put(teamName, newTeam);
-				returnMessage = "Created new team \"" + teamName + "\" with join key \"" + joinKey + "\" successfully!";
+				sender.sendMessage(
+						"Created new team \"" + teamName + "\" with join key \"" + joinKey + "\" successfully!");
 			} else {
-				returnMessage = ChatColor.RED + "Team already exists!";
-			}
-
-			if (!returnMessage.isEmpty()) {
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "Team already exists!");
 			}
 			return true;
 		}
 
 		else if (cmd.getName().equalsIgnoreCase("deleteTeam")) {
-			String returnMessage = "";
 			if (!(sender instanceof Player)) {
-				returnMessage = ChatColor.RED + "This command can only be run by a player.";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "This command can only be run by a player.");
 				return true;
 			}
 
@@ -74,18 +68,22 @@ public class MCWarCommandExecutor implements CommandExecutor {
 			String teamName = args[0];
 
 			if (!teamList.containsKey(teamName)) {
-				returnMessage = ChatColor.RED + "Team couldn't be found!";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "Team couldn't be found!");
 				return true;
 			}
 
 			if (!teamList.get(teamName).getCreator().equalsIgnoreCase(sender.getName())) {
-				returnMessage = ChatColor.RED + "You are not the creator of this team!";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "You are not the creator of this team!");
 				return true;
 			}
 
-			ArrayList<String> removePlayerNames = new ArrayList<>(); // this step is required to avoid java.util.ConcurrentModificationException
+			ArrayList<String> removePlayerNames = new ArrayList<>(); // this
+																		// step
+																		// is
+																		// required
+																		// to
+																		// avoid
+																		// java.util.ConcurrentModificationException
 			for (String teamPlayerName : teamList.get(teamName).getPlayers()) {
 				removePlayerNames.add(teamPlayerName);
 			}
@@ -99,17 +97,12 @@ public class MCWarCommandExecutor implements CommandExecutor {
 			teamList.remove(teamName);
 			Bukkit.broadcastMessage("MCWar: Team \"" + teamName + "\" was deleted by the creator!");
 
-			if (!returnMessage.isEmpty()) {
-				sender.sendMessage(returnMessage);
-			}
 			return true;
 		}
 
 		else if (cmd.getName().equalsIgnoreCase("joinTeam")) {
-			String returnMessage = "";
 			if (!(sender instanceof Player)) {
-				returnMessage = ChatColor.RED + "This command can only be run by a player.";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "This command can only be run by a player.");
 				return true;
 			}
 
@@ -126,47 +119,39 @@ public class MCWarCommandExecutor implements CommandExecutor {
 			}
 
 			if (!teamList.containsKey(teamName)) {
-				returnMessage = ChatColor.RED + "Team doesn't exist!";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "Team doesn't exist!");
 				return true;
 			}
 
 			String teamKey = teamList.get(teamName).getJoinKey();
 			if (!joinKey.equals(teamKey)) {
-				returnMessage = ChatColor.RED + "Join key incorrect!";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "Join key incorrect!");
 				return true;
 			}
 
 			if (teamList.get(teamName).isPlayerInTeam(playerName)) {
-				returnMessage = ChatColor.RED + "You are already part of this team!";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "You are already part of this team!");
 				return true;
 			}
 
-			for (String team : teamList.keySet()) {
+			for (String team : teamList.keySet()) { // checks if the player is
+													// in another team already
 				if (teamList.get(team).isPlayerInTeam(playerName)) {
-					returnMessage = ChatColor.RED + "You are already part of: " + team;
-					sender.sendMessage(returnMessage);
+					sender.sendMessage(ChatColor.RED + "You are already part of: " + team);
 					return true;
 				}
 			}
 
 			teamList.get(teamName).addPlayer(sender.getServer().getPlayer(playerName));
-			Bukkit.broadcastMessage("MCWar: " + playerName + " joined Team \"" + teamName + "\"! (Total members: " + teamList.get(teamName).getPlayerCount()
-					+ ")");
+			Bukkit.broadcastMessage("MCWar: " + playerName + " joined Team \"" + teamName + "\"! (Total members: "
+					+ teamList.get(teamName).getPlayerCount() + ")");
 
-			if (!returnMessage.isEmpty()) {
-				sender.sendMessage(returnMessage);
-			}
 			return true;
 		}
 
 		else if (cmd.getName().equalsIgnoreCase("leaveTeam")) {
-			String returnMessage = "";
 			if (!(sender instanceof Player)) {
-				returnMessage = ChatColor.RED + "This command can only be run by a player.";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "This command can only be run by a player.");
 				return true;
 			}
 
@@ -181,29 +166,24 @@ public class MCWarCommandExecutor implements CommandExecutor {
 			for (String team : teamList.keySet()) {
 				if (teamList.get(team).isPlayerInTeam(playerName)) {
 					teamList.get(team).removePlayer(player);
-					Bukkit.broadcastMessage("MCWar: " + playerName + " has left Team \"" + team + "\"! (Total members: " + teamList.get(team).getPlayerCount()
-							+ ")");
+					Bukkit.broadcastMessage("MCWar: " + playerName + " has left Team \"" + team + "\"! (Total members: "
+							+ teamList.get(team).getPlayerCount() + ")");
 					return true;
 				}
 			}
 
-			returnMessage = ChatColor.RED + "You are in no team!";
-			sender.sendMessage(returnMessage);
+			sender.sendMessage(ChatColor.RED + "You are in no team!");
 			return true;
 		}
 
 		else if (cmd.getName().equalsIgnoreCase("ready")) {
-			String returnMessage = "";
-
 			if (plugin.getGameActive()) {
-				returnMessage = ChatColor.RED + "You can't change your ready status while a game is active!";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "You can't change your ready status while a game is active!");
 				return true;
 			}
 
 			if (!(sender instanceof Player)) {
-				returnMessage = ChatColor.RED + "This command can only be run by a player.";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "This command can only be run by a player.");
 				return true;
 			}
 
@@ -216,14 +196,12 @@ public class MCWarCommandExecutor implements CommandExecutor {
 			String playerName = sender.getName();
 
 			if (player.hasMetadata("ready") && player.getMetadata("ready").get(0).asBoolean()) {
-				returnMessage = ChatColor.RED + "You are ready already!";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "You are ready already!");
 				return true;
 			}
 
 			if (!player.hasMetadata("team")) {
-				returnMessage = ChatColor.RED + "You need to join a team first!";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "You need to join a team first!");
 				return true;
 			}
 			player.setMetadata("ready", new FixedMetadataValue(plugin, true));
@@ -235,7 +213,8 @@ public class MCWarCommandExecutor implements CommandExecutor {
 				}
 			}
 
-			Bukkit.broadcastMessage("MCWar: " + playerName + " is ready. (" + readyPlayers + "/" + Bukkit.getOnlinePlayers().size() + ")");
+			Bukkit.broadcastMessage("MCWar: " + playerName + " is ready. (" + readyPlayers + "/"
+					+ Bukkit.getOnlinePlayers().size() + ")");
 
 			if (readyPlayers == Bukkit.getOnlinePlayers().size()) {
 				Bukkit.broadcastMessage(ChatColor.BOLD + "MCWar: All players are ready!");
@@ -250,14 +229,12 @@ public class MCWarCommandExecutor implements CommandExecutor {
 			String returnMessage = "";
 
 			if (plugin.getGameActive()) {
-				returnMessage = ChatColor.RED + "You can't change your ready status while a game is active!";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "You can't change your ready status while a game is active!");
 				return true;
 			}
 
 			if (!(sender instanceof Player)) {
-				returnMessage = "This command can only be run by a player.";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage("This command can only be run by a player.");
 				return true;
 			}
 
@@ -278,7 +255,8 @@ public class MCWarCommandExecutor implements CommandExecutor {
 					}
 				}
 
-				Bukkit.broadcastMessage("MCWar: " + playerName + " is not ready. (" + readyPlayers + "/" + Bukkit.getOnlinePlayers().size() + ")");
+				Bukkit.broadcastMessage("MCWar: " + playerName + " is not ready. (" + readyPlayers + "/"
+						+ Bukkit.getOnlinePlayers().size() + ")");
 
 				return true;
 			} else {
@@ -302,10 +280,8 @@ public class MCWarCommandExecutor implements CommandExecutor {
 		// }
 		//
 		else if (cmd.getName().equalsIgnoreCase("kit")) {
-			String returnMessage = "";
 			if (!(sender instanceof Player)) {
-				returnMessage = ChatColor.RED + "This command can only be run by a player.";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "This command can only be run by a player.");
 				return true;
 			}
 
@@ -316,8 +292,7 @@ public class MCWarCommandExecutor implements CommandExecutor {
 			String input = args[0].toUpperCase();
 
 			if (!kitList.containsKey(input)) {
-				returnMessage = ChatColor.RED + "Kit not found.";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "Kit not found.");
 				return true;
 			}
 
@@ -345,8 +320,6 @@ public class MCWarCommandExecutor implements CommandExecutor {
 		}
 
 		else if (cmd.getName().equalsIgnoreCase("assignPlayer")) {
-			String returnMessage = "";
-
 			if (args.length != 2) {
 				return false;
 			}
@@ -355,39 +328,48 @@ public class MCWarCommandExecutor implements CommandExecutor {
 			String teamName = args[1];
 			Player player = Bukkit.getPlayer(playerName);
 			if (!(player instanceof Player)) {
-				returnMessage = ChatColor.RED + "Player not found.";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "Player not found.");
 				return true;
 			}
 
 			if (!teamList.containsKey(teamName)) {
-				returnMessage = ChatColor.RED + "Team not found.";
-				sender.sendMessage(returnMessage);
+				sender.sendMessage(ChatColor.RED + "Team not found.");
 				return true;
 			}
 
 			for (String team : teamList.keySet()) {
 				if (teamList.get(team).isPlayerInTeam(playerName)) {
 					teamList.get(team).removePlayer(player);
-					Bukkit.broadcastMessage("MCWar: " + playerName + " has left Team \"" + team + "\"! (Total members: " + teamList.get(team).getPlayerCount()
-							+ ")");
+					Bukkit.broadcastMessage("MCWar: " + playerName + " has left Team \"" + team + "\"! (Total members: "
+							+ teamList.get(team).getPlayerCount() + ")");
 				}
 			}
 			teamList.get(teamName).addPlayer(player);
-			Bukkit.broadcastMessage("MCWar: " + playerName + " joined Team \"" + teamName + "\"! (Total members: " + teamList.get(teamName).getPlayerCount());
+			Bukkit.broadcastMessage("MCWar: " + playerName + " was assigned to Team \"" + teamName + "\"! (Total members: "
+					+ teamList.get(teamName).getPlayerCount());
 
 			return true;
 		}
 
 		else if (cmd.getName().equalsIgnoreCase("resetTeams")) {
-			ArrayList<String> removeTeamNames = new ArrayList<>(); // this step is required to avoid java.util.ConcurrentModificationException
+			ArrayList<String> removeTeamNames = new ArrayList<>(); // this step
+																	// is
+																	// required
+																	// to avoid
+																	// java.util.ConcurrentModificationException
 			for (String teamName : teamList.keySet()) {
 				removeTeamNames.add(teamName);
 			}
 
 			for (String team : removeTeamNames) {
 
-				ArrayList<String> removePlayerNames = new ArrayList<>(); // this step is required to avoid java.util.ConcurrentModificationException
+				ArrayList<String> removePlayerNames = new ArrayList<>(); // this
+																			// step
+																			// is
+																			// required
+																			// to
+																			// avoid
+																			// java.util.ConcurrentModificationException
 				for (String teamPlayerName : teamList.get(team).getPlayers()) {
 					removePlayerNames.add(teamPlayerName);
 				}
@@ -493,7 +475,8 @@ public class MCWarCommandExecutor implements CommandExecutor {
 
 			if (args[0].equals("enable")) {
 				plugin.getConfig().set("preferences.timerEnable", true);
-				Bukkit.broadcastMessage("MCWar: The timer is now enabled. (" + plugin.getConfig().getInt("preferences.maxTime") + ")");
+				Bukkit.broadcastMessage(
+						"MCWar: The timer is now enabled. (" + plugin.getConfig().getInt("preferences.maxTime") + ")");
 				return true;
 			}
 
@@ -529,7 +512,8 @@ public class MCWarCommandExecutor implements CommandExecutor {
 				}
 
 				plugin.getConfig().set("preferences.maxKillsEnable", true);
-				Bukkit.broadcastMessage("MCWar: Kill limit is now enabled. (" + plugin.getConfig().getInt("preferences.maxKills") + ")");
+				Bukkit.broadcastMessage("MCWar: Kill limit is now enabled. ("
+						+ plugin.getConfig().getInt("preferences.maxKills") + ")");
 				return true;
 			}
 
@@ -565,7 +549,8 @@ public class MCWarCommandExecutor implements CommandExecutor {
 				}
 
 				plugin.getConfig().set("preferences.ticketsEnable", true);
-				Bukkit.broadcastMessage("MCWar: Ticket limit is now enabled. (" + plugin.getConfig().getInt("preferences.maxTime") + ")");
+				Bukkit.broadcastMessage("MCWar: Ticket limit is now enabled. ("
+						+ plugin.getConfig().getInt("preferences.maxTime") + ")");
 				return true;
 			}
 

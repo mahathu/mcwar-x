@@ -44,11 +44,12 @@ public final class MCWar extends JavaPlugin {
 
 		setGameActive(false);
 		setWb(Bukkit.getWorld(worldName).getWorldBorder());
+		
 		manager = Bukkit.getScoreboardManager();
 		setBoard(manager.getNewScoreboard());
 		setObjective(getBoard().registerNewObjective("tickets", "dummy"));
 
-		getWb().setSize(60000000);
+		getWb().setSize(60000000); //max/default size
 
 		this.getConfig().options().copyDefaults(true);
 		this.saveDefaultConfig();
@@ -58,25 +59,23 @@ public final class MCWar extends JavaPlugin {
 		int mapCenterX = this.getConfig().getInt("preferences.mapCenterX");
 		int mapCenterZ = this.getConfig().getInt("preferences.mapCenterZ");
 
-		setMapCenter(new Location(Bukkit.getWorld(worldName), mapCenterX, 0, mapCenterZ));
+		setMapCenter(new Location(Bukkit.getWorld(worldName), mapCenterX, 0, mapCenterZ)); //Default: (0|0|0)
 
-		new MCWarEventListener(this, getTeamList());
+		new MCWarEventListener(this, getTeamList()); //set event listener
 
 		String[] commands = { "createTeam", "deleteTeam", "joinTeam", "leaveTeam", "ready", "notready", "kit", "showkits", "kits", "randomChests", "mapSize",
 				"nether", "setTimer", "timer", "setMaxKills", "maxKills", "setTickets", "tickets", "assignPlayer", "resetTeams", "setMapCenter", "startMatch",
 				"stopMatch" };
 
-		for (String commandName : commands) {
+		for (String commandName : commands) { //set Command listeners
 			this.getCommand(commandName).setExecutor(new MCWarCommandExecutor(this, getTeamList(), getKitList()));
 		}
 
-		for (String key : this.getConfig().getConfigurationSection("kits").getKeys(false)) {
+		for (String key : this.getConfig().getConfigurationSection("kits").getKeys(false)) { //gather kits from config and add to kitList
 
 			String kitPath = "kits." + key;
 			String kitName = this.getConfig().getString(kitPath + ".name");
-
 			String description = this.getConfig().getString(kitPath + ".description");
-
 			MCWarKit newKit = new MCWarKit(kitName, description, this);
 
 			for (String itemName : this.getConfig().getConfigurationSection(kitPath + ".items").getKeys(false)) {
@@ -84,11 +83,10 @@ public final class MCWar extends JavaPlugin {
 
 				newKit.addStartingItem(itemName, itemAmount);
 			}
-
 			getKitList().put(kitName.toUpperCase(), newKit);
 		}
 
-		for (String key : this.getConfig().getConfigurationSection("chestcontent").getKeys(false)) {
+		for (String key : this.getConfig().getConfigurationSection("chestcontent").getKeys(false)) { //get chest items from config and add them to the list
 
 			String itemPath = "chestcontent." + key;
 			String itemMaterial = this.getConfig().getString(itemPath + ".material");
@@ -106,7 +104,7 @@ public final class MCWar extends JavaPlugin {
 
 	public boolean startMatch(int timer) {
 
-		for (String teamName : this.getTeamList().keySet()) {
+		for (String teamName : this.getTeamList().keySet()) { //add teams with at least one player to the active team list
 			if (teamList.get(teamName).getPlayerCount() > 0) {
 				getActiveTeams().add(teamName);
 			}
@@ -121,8 +119,8 @@ public final class MCWar extends JavaPlugin {
 		} else {
 			Bukkit.broadcastMessage(ChatColor.BOLD + "The match is about to start!");
 		}
+		
 		this.getServer().getScheduler().scheduleSyncDelayedTask(this, new MCWarRunMatch(this, getActiveTeams()), timer * 20);
-
 		return true;
 	}
 
@@ -131,7 +129,7 @@ public final class MCWar extends JavaPlugin {
 	}
 
 	public void stopMatch() {
-		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+		for (Player p : Bukkit.getServer().getOnlinePlayers()) { //reset all players
 
 			t.resetPlayer(p);
 

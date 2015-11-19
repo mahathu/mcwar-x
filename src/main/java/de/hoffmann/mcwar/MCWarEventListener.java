@@ -40,16 +40,17 @@ public class MCWarEventListener implements Listener {
 
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
-		if (event.getPlayer() instanceof Player) {
-			Player player = event.getPlayer();
-			String playerName = player.getName();
-			String teamPrefix = "No Team";
+		if (!(event.getPlayer() instanceof Player)) {
+			return;
+		}
 
-			event.setFormat("[" + teamPrefix + "] %s : %s");
+		Player player = event.getPlayer();
+		String teamPrefix = "No Team";
 
-			if (player.hasMetadata("team")) {
-				event.setFormat("[" + player.getMetadata("team").get(0).asString() + "] %s: %s");
-			}
+		event.setFormat("[" + teamPrefix + "] %s : %s");
+
+		if (player.hasMetadata("team")) {
+			event.setFormat("[" + player.getMetadata("team").get(0).asString() + "] %s: %s");
 		}
 	}
 
@@ -58,8 +59,13 @@ public class MCWarEventListener implements Listener {
 		Player player = event.getPlayer();
 		double pitch = player.getLocation().getPitch();
 		double yaw = player.getLocation().getYaw();
-		if (player.hasMetadata("moveable") && !player.getMetadata("moveable").get(0).asBoolean() && yaw == player.getLocation().getYaw()
-				&& pitch == player.getLocation().getPitch()) { // player moving (not changing view angle)
+		if (player.hasMetadata("moveable") && !player.getMetadata("moveable").get(0).asBoolean()
+				&& yaw == player.getLocation().getYaw() && pitch == player.getLocation().getPitch()) { // player
+																										// moving
+																										// (not
+																										// changing
+																										// view
+																										// angle)
 			player.teleport(player);
 			player.sendMessage("You can't move!");
 		}
@@ -77,36 +83,38 @@ public class MCWarEventListener implements Listener {
 			String playerTeam = sender.getMetadata("team").get(0).asString();
 
 			double distance = 0.0;
-			double nearestDistance = 600000.0;
-			Player nearestPlayer = null;
+			double closestDistance = 600000.0;
+			Player closestPlayer = null;
 
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (!player.hasMetadata("team") || player == sender) {
+			for (Player player : plugin.getActivePlayers()) {
+				if (player == sender) {
 					continue;
 				}
-				if (!(playerTeam.equals(player.getMetadata("team").get(0).asString()))) { // player is in a different team
+				if (!(playerTeam.equals(player.getMetadata("team").get(0).asString()))) {
+					//player from the loop is in a different team
 					distance = player.getLocation().distance(sender.getLocation());
 
-					if (distance < nearestDistance) {
-						nearestDistance = distance;
-						nearestPlayer = player;
+					if (distance < closestDistance) {
+						closestDistance = distance;
+						closestPlayer = player;
 					}
 				}
 
 			}
 
-			if (nearestPlayer == null) {
+			if (closestPlayer == null) {
 				sender.sendMessage("No player was found!");
 			}
 
-			String output = "Pointing compass towards " + nearestPlayer.getName();
+			String output = "Pointing compass towards " + closestPlayer.getName();
 
-			if (sender.hasMetadata("kit") && sender.getMetadata("kit").get(0).asString().equalsIgnoreCase("spy")) { // the player is a spy!
-				output += " (y: " + nearestPlayer.getLocation().getY() + ")";
+			if (sender.hasMetadata("kit") && sender.getMetadata("kit").get(0).asString().equalsIgnoreCase("spy")) {
+				//the player is a spy!
+				output += " (y: " + closestPlayer.getLocation().getY() + ")";
 			}
 
 			sender.sendMessage(output);
-			sender.setCompassTarget(nearestPlayer.getLocation());
+			sender.setCompassTarget(closestPlayer.getLocation());
 			return;
 		}
 	}
