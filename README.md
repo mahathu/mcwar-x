@@ -1,11 +1,13 @@
 # mcwar
 A simple PVP plugin for Bukkit/Spigot.
 
-**Installation**
+Installation
+------------
 
 Simply put the .jar-file into your /plugins directory. Restart the server if necessary.
 
-**Important commands:**
+Important commands:
+---------------------
 
 /createTeam <team name> [join key] - *creates a new team with an optional join key*
 
@@ -26,7 +28,8 @@ Simply put the .jar-file into your /plugins directory. Restart the server if nec
 /startMatch [timer] - *starts the match after the specified time (default: 10 seconds)*
 
 
-**Kits:**
+Kits:
+-----
 
 Archer: *Get an early advantage over your foes with a set of a bow and arrows.*   
 
