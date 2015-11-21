@@ -23,7 +23,7 @@ Important commands:
 
 /setMapSize <map size> - *sets the map size in blocks from the center (default: 250)*
 
-/kits <enable|disable> - *Enables/disables kits.*
+/kits \<enable|disable\> - *Enables/disables kits.*
 
 /startMatch [timer] - *starts the match after the specified time (default: 10 seconds)*
 
