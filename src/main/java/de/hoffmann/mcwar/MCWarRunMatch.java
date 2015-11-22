@@ -62,6 +62,8 @@ public class MCWarRunMatch implements Runnable {
 
 			if (plugin.getBoard().getTeam(teamName) == null) {
 				team = plugin.getBoard().registerNewTeam(teamName);
+			} else {
+				team = plugin.getBoard().getTeam(teamName);
 			}
 
 			team.setDisplayName(teamName);
@@ -163,8 +165,9 @@ public class MCWarRunMatch implements Runnable {
 		}, timer * 20L);
 
 		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin,
-				new MCWarChestGenerator(plugin, plugin.getChestContentList()), timer + 15 * 60 * 20L, 10 * 60 * 20L); 
-		// starts generating chests every 10 minutes after an initial delay of 15 minutes.
+				new MCWarChestGenerator(plugin, plugin.getChestContentList()), timer + 15 * 60 * 20L, 10 * 60 * 20L);
+		// starts generating chests every 10 minutes after an initial delay of
+		// 15 minutes.
 
 	}
 
