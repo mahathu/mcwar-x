@@ -177,7 +177,7 @@ public class MCWarCommandExecutor implements CommandExecutor {
 		}
 
 		else if (cmd.getName().equalsIgnoreCase("ready")) {
-			if (plugin.getGameActive()) {
+			if (plugin.isGameActive()) {
 				sender.sendMessage(ChatColor.RED + "You can't change your ready status while a game is active!");
 				return true;
 			}
@@ -228,7 +228,7 @@ public class MCWarCommandExecutor implements CommandExecutor {
 		else if (cmd.getName().equalsIgnoreCase("notready")) {
 			String returnMessage = "";
 
-			if (plugin.getGameActive()) {
+			if (plugin.isGameActive()) {
 				sender.sendMessage(ChatColor.RED + "You can't change your ready status while a game is active!");
 				return true;
 			}
@@ -605,7 +605,7 @@ public class MCWarCommandExecutor implements CommandExecutor {
 				timer = Integer.parseInt(args[0]);
 			}
 
-			if (plugin.getGameActive()) {
+			if (plugin.isGameActive()) {
 				sender.sendMessage("A game is already active");
 				return true;
 			}

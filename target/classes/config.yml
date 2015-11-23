@@ -174,3 +174,4 @@ preferences:
   mapCenterZ: 0
   
   worldName: world
+  debug: false

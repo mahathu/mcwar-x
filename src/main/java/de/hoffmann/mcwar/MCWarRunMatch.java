@@ -23,10 +23,15 @@ public class MCWarRunMatch implements Runnable {
 	private ArrayList<String> activeTeams;
 	private ArrayList<Player> activePlayers;
 	private MCWarTools t;
+	
+	public int matchCountdownTaskId, matchStartTimerId, chestGeneratorTaskId;
 
 	public MCWarRunMatch(MCWar plugin, ArrayList<String> activeTeams) {
 		this.plugin = plugin;
 		this.timer = 30;
+		if (plugin.isDebugModeEnabled()) {
+			timer = 5;
+		}
 		this.activeTeams = activeTeams;
 		this.activePlayers = new ArrayList<Player>();
 		this.t = new MCWarTools(plugin);
@@ -76,9 +81,8 @@ public class MCWarRunMatch implements Runnable {
 
 			int spawnX = (int) ((Math.cos(Math.toRadians(angle)) * radius) + plugin.getMapCenter().getBlockX());
 			int spawnZ = (int) ((Math.sin(Math.toRadians(angle)) * radius) + plugin.getMapCenter().getBlockZ());
-			int spawnY = Bukkit.getServer().getWorld(plugin.getWorldName()).getHighestBlockYAt((int) spawnX,
-					(int) spawnZ) + 1; // finds a suitable place to
-										// spawn at
+			int spawnY = Bukkit.getServer().getWorld(plugin.getWorldName()).getHighestBlockYAt((int) spawnX, (int) spawnZ) + 1; // finds a suitable place to
+																																// spawn at
 
 			Location spawnPoint = new Location(Bukkit.getWorld(plugin.getWorldName()), spawnX, spawnY, spawnZ);
 
@@ -125,12 +129,10 @@ public class MCWarRunMatch implements Runnable {
 
 				player.setMetadata("moveable", new FixedMetadataValue(plugin, false));
 				player.teleport(spawnPoint);
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-						"spawnpoint " + playerName + " " + spawnX + " " + spawnY + " " + spawnZ);
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "spawnpoint " + playerName + " " + spawnX + " " + spawnY + " " + spawnZ);
 			}
 
-			plugin.getObjective().getScore(Bukkit.getOfflinePlayer(teamName))
-					.setScore(plugin.getConfig().getInt("preferences.tickets"));
+			plugin.getObjective().getScore(Bukkit.getOfflinePlayer(teamName)).setScore(plugin.getConfig().getInt("preferences.tickets"));
 
 			teamNumber++;
 		}
@@ -142,18 +144,18 @@ public class MCWarRunMatch implements Runnable {
 
 		Bukkit.broadcastMessage(ChatColor.BOLD + "The match will start in " + timer + " seconds!");
 
-		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() { // once
+		plugin.setMatchCountdownTaskId( Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() { // once
 																								// per
 																								// second
-			public void run() {
-				if (((timer <= 15 && timer % 5 == 0) || timer <= 5) && timer > 0) {
-					Bukkit.broadcastMessage(ChatColor.BOLD + "The match will start in " + timer + " seconds!");
-				}
-				timer--;
-			}
-		}, 0, 20L);
+					public void run() {
+						if (((timer <= 15 && timer % 5 == 0) || timer <= 5) && timer > 0 && plugin.isGameActive()) { // shows a countdown at 15, 10, 5,4,3,2,1
+							Bukkit.broadcastMessage(ChatColor.BOLD + "The match will start in " + timer + " seconds!");
+						}
+						timer--;
+					}
+				}, 0, 20L) );
 
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+		plugin.setMatchStartTimerId( Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			public void run() {
 				Bukkit.broadcastMessage(ChatColor.BOLD + "The match has been started!");
 				for (Player player : activePlayers) {
@@ -162,10 +164,10 @@ public class MCWarRunMatch implements Runnable {
 					player.setMetadata("moveable", new FixedMetadataValue(plugin, true));
 				}
 			}
-		}, timer * 20L);
+		}, timer * 20L));
 
-		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin,
-				new MCWarChestGenerator(plugin, plugin.getChestContentList()), timer + 15 * 60 * 20L, 10 * 60 * 20L);
+		plugin.setChestGeneratorTaskId( Bukkit.getServer().getScheduler()
+				.scheduleSyncRepeatingTask(plugin, new MCWarChestGenerator(plugin, plugin.getChestContentList()), timer + 15 * 60 * 20L, 10 * 60 * 20L) );
 		// starts generating chests every 10 minutes after an initial delay of
 		// 15 minutes.
 

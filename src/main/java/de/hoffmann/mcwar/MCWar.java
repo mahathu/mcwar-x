@@ -38,8 +38,12 @@ public final class MCWar extends JavaPlugin {
 	private ArrayList<String> activeTeams; // teams with at least 1 player
 	private ArrayList<Player> activePlayers;
 
+	private int matchStartTaskId, matchCountdownTaskId, matchStartTimerId, chestGeneratorTaskId = -1;
+
+	
 	@Override
 	public void onEnable() {
+		
 		activeTeams = new ArrayList<>();
 		activePlayers = new ArrayList<>();
 
@@ -67,9 +71,9 @@ public final class MCWar extends JavaPlugin {
 
 		new MCWarEventListener(this, getTeamList()); // set event listener
 
-		String[] commands = { "createTeam", "deleteTeam", "joinTeam", "leaveTeam", "ready", "notready", "kit",
-				"showkits", "kits", "randomChests", "mapSize", "nether", "setTimer", "timer", "setMaxKills", "maxKills",
-				"setTickets", "tickets", "assignPlayer", "resetTeams", "setMapCenter", "startMatch", "stopMatch" };
+		String[] commands = { "createTeam", "deleteTeam", "joinTeam", "leaveTeam", "ready", "notready", "kit", "showkits", "kits", "randomChests", "mapSize",
+				"nether", "setTimer", "timer", "setMaxKills", "maxKills", "setTickets", "tickets", "assignPlayer", "resetTeams", "setMapCenter", "startMatch",
+				"stopMatch" };
 
 		for (String commandName : commands) { // set Command listeners
 			this.getCommand(commandName).setExecutor(new MCWarCommandExecutor(this, getTeamList(), getKitList()));
@@ -90,8 +94,7 @@ public final class MCWar extends JavaPlugin {
 			MCWarKit newKit = new MCWarKit(kitName, description, this);
 
 			for (String itemName : this.getConfig().getConfigurationSection(kitPath + ".items").getKeys(false)) {
-				int itemAmount = Integer
-						.parseInt(this.getConfig().getString(kitPath + ".items." + itemName + ".amount"));
+				int itemAmount = Integer.parseInt(this.getConfig().getString(kitPath + ".items." + itemName + ".amount"));
 
 				newKit.addStartingItem(itemName, itemAmount);
 			}
@@ -136,8 +139,8 @@ public final class MCWar extends JavaPlugin {
 			}
 		}
 
-		if (getActiveTeams().size() < 2) { // there need to be at least 2 active
-											// teams
+		if (getActiveTeams().size() < 2 && !(isDebugModeEnabled())) { // there need to be at least 2 active
+			// teams if deb
 			// return false;
 		}
 
@@ -147,19 +150,18 @@ public final class MCWar extends JavaPlugin {
 			Bukkit.broadcastMessage(ChatColor.BOLD + "The match is about to start!");
 		}
 
-		this.getServer().getScheduler().scheduleSyncDelayedTask(this, new MCWarRunMatch(this, getActiveTeams()),
-				timer * 20);
+		matchStartTaskId = this.getServer().getScheduler().scheduleSyncDelayedTask(this, new MCWarRunMatch(this, getActiveTeams()), timer * 20);
 		return true;
 	}
 
-	public boolean getGameActive() {
-		return isGameActive();
+	public boolean isDebugModeEnabled() {
+		return this.getConfig().getBoolean("preferences.debug");
 	}
 
 	public void stopMatch() {
 		if (!this.isGameActive())
 			return;
-		
+
 		for (Player p : Bukkit.getServer().getOnlinePlayers()) { // reset all
 																	// players
 
@@ -168,10 +170,21 @@ public final class MCWar extends JavaPlugin {
 			p.setMetadata("moveable", new FixedMetadataValue(this, true));
 			p.setGameMode(GameMode.SPECTATOR);
 
-			getActiveTeams().clear();
-			getActivePlayers().clear();
 		}
+		getActiveTeams().clear();
+		getActivePlayers().clear();
+		
+		int[] taskIDs = {matchStartTaskId, matchCountdownTaskId, matchStartTimerId, chestGeneratorTaskId};
+		for( int id : taskIDs){
+			if(id != -1){
+				Bukkit.getScheduler().cancelTask(id);
+				id = -1;}
+		}
+		
+		getWb().setSize(60000000); // max/default size
 
+		
+		
 		setGameActive(false);
 	}
 
@@ -257,5 +270,16 @@ public final class MCWar extends JavaPlugin {
 
 	public List<MCWarChestContent> getChestContentList() {
 		return chestContentList;
+	}
+
+	public void setMatchCountdownTaskId(int matchCountdownTaskId) {
+		this.matchCountdownTaskId = matchCountdownTaskId;
+	}
+	public void setMatchStartTimerId(int matchStartTimerId) {
+		this.matchStartTimerId = matchStartTimerId;
+	}
+
+	public void setChestGeneratorTaskId(int chestGeneratorTaskId) {
+		this.chestGeneratorTaskId = chestGeneratorTaskId;
 	}
 }

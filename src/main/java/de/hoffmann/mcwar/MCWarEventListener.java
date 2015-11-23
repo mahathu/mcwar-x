@@ -31,7 +31,7 @@ public class MCWarEventListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		if (!plugin.getGameActive()) {
+		if (!plugin.isGameActive()) {
 			player.setMetadata("ready", new FixedMetadataValue(plugin, false));
 			player.setMetadata("moveable", new FixedMetadataValue(plugin, true));
 			player.setGameMode(GameMode.SPECTATOR);
