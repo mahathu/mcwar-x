@@ -4,7 +4,7 @@ A simple PVP plugin for Bukkit/Spigot.
 Installation
 ------------
 
-Simply put the .jar-file into your /plugins directory. Restart the server if necessary.
+Download the .jar file from the target directory and put it into the /plugins directory of your server. Restart the server if necessary.
 
 Important commands:
 ---------------------
@@ -17,15 +17,15 @@ Important commands:
 
 /ready - *sets your status to ready, if every player is ready the game will start*
 
-/setTickets - *sets the ticket limit per team (default: 1)*
+/setTickets - *sets the ticket limit per team (default: 1) (Only operators)*
 
-/setMapCenter [x] [z] - *puts the map center to the players coordinates or the specified arguments.*
+/setMapCenter [x] [z] - *puts the map center to the players coordinates or the specified arguments. (Only operators)*
 
-/setMapSize <map size> - *sets the map size in blocks from the center (default: 250)*
+/setMapSize <map size> - *sets the map size in blocks from the center (default: 250). (Only operators)*
 
-/kits \<enable|disable\> - *Enables/disables kits.*
+/kits \<enable|disable\> - *Enables/disables kits. (Only operators)*
 
-/startMatch [timer] - *starts the match after the specified time (default: 10 seconds)*
+/startMatch [timer] - *starts the match after the specified time (default: 10 seconds). (Only operators)*
 
 
 Kits:
