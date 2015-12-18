@@ -1,4 +1,4 @@
-package io.mhoffmann98.github.mcwar;
+package io.github.mhoffmann98.mcwar;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

@@ -1,8 +1,8 @@
-name: MCWar
-version: 0.01
+name: mcwar-x
+version: 1
 author: martin.hoffmann98@live.de
 
-main: de.hoffmann.mcwar.MCWar
+main: io.github.mhoffmann98.mcwar.MCWar
 
 commands:
   createTeam:
