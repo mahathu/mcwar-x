@@ -1,4 +1,4 @@
-# mcwar
+# mcwar-x
 A simple PVP plugin for Bukkit/Spigot.
 
 
