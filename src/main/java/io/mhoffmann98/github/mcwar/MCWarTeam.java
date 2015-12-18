@@ -1,4 +1,4 @@
-package de.hoffmann.mcwar;
+package io.mhoffmann98.github.mcwar;
 
 import java.util.ArrayList;
 import java.util.List;
