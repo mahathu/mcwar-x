@@ -1,13 +1,21 @@
 # mcwar
 A simple PVP plugin for Bukkit/Spigot.
 
+
 Installation
 ------------
 
 Download the .jar file from the target directory and put it into the /plugins directory of your server. Restart the server if necessary.
 
+
+Game Instructions
+-----------------
+
+The goal is to survive as the last player or team. You can craft a compass that will show you the direction to the closest enemy. There are random chests spawning in set intervals that contain valuable items that are hard or impossible to get otherwise.
+
+
 Important commands:
----------------------
+-------------------
 
 /createTeam <team name> [join key] - *creates a new team with an optional join key*
 
